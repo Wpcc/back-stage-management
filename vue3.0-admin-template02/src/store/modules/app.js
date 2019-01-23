@@ -3,7 +3,7 @@ import Cookies from 'js-cookie'
 const app = {
   state: {
     sidebar: {
-      opened: !+Cookies.get('sidebarStatus'),  //?+ 啥意思啊
+      opened: !+Cookies.get('sidebarStatus'),  //+将后面的字符串转换成数字
       withoutAnimation: false
     },
     device: 'desktop'

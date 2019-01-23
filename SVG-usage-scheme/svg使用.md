@@ -300,3 +300,8 @@ export default {
 
 ```
 
+
+
+
+
+> 通过clone 该[项目](https://github.com/Wpcc/back-stage-management)中的SVG-usage-scheme可以查看具体代码
