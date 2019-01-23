@@ -1,0 +1,2 @@
+(window["webpackJsonp"]=window["webpackJsonp"]||[]).push([["chunk-2d0e4b0c"],{"90fe":function(e,n,t){"use strict";t.r(n);var a=function(){var e=this,n=e.$createElement,t=e._self._c||n;return t("p",{staticClass:"app-container"},[e._v("this is a table page")])},s=[],i={},c=i,l=t("2877"),p=Object(l["a"])(c,a,s,!1,null,null,null);p.options.__file="index.vue";n["default"]=p.exports}}]);
+//# sourceMappingURL=chunk-2d0e4b0c.535098f6.js.map
