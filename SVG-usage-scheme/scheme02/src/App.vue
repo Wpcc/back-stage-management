@@ -1,15 +1,15 @@
 <template>
   <div id="app">
-    <IconSvg :iconClass="'me'"></IconSvg>
-    <IconSvg :iconClass="'set'"></IconSvg>
-    <IconSvg :iconClass="'exit'"></IconSvg>
+    <IconSVG :iconClass="'me'"></IconSVG>
+    <IconSVG :iconClass="'set'"></IconSVG>
+    <IconSVG :iconClass="'exit'"></IconSVG>
   </div>
 </template>
 <script>
-import IconSvg from '@/components/IconSvg.vue'
+import IconSVG from '@/components/IconSVG.vue'
 export default {
   components:{
-    IconSvg
+    IconSVG
   }
 }
 </script>

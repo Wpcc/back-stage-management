@@ -14,10 +14,9 @@ export default new Router({
 })
 
 function str2comp(arr){
-  arr.forEach(function(item){
+  arr.forEach(item => {
     if(item.component === 'Layout'){
       item.component = Layout
     }
   })
-  return arr
 }

@@ -5,6 +5,13 @@
 </template>
 
 <script>
+/*
+  通过requireContext引入icons目录下的所有svg图片
+*/
+
+import '@/icons/me.svg'
+import '@/icons/set.svg'
+import '@/icons/exit.svg'
 
 export default {
   name: 'icon-svg',

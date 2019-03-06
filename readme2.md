@@ -63,6 +63,35 @@ nprogress
 
 ### easy-mock
 
+| id(id) | 访问链接(link)                           | 操作类型(type) | 对应内容(content) | 访客IP(ip)     | 次数(number) | 时间(time)          | 操作(operation) |
+| ------ | ---------------------------------------- | -------------- | ----------------- | -------------- | ------------ | ------------------- | --------------- |
+| 6200   | http://fz.bdcgw.cn/weixin/uc/xld18052902 | 点击           | 领取牛股          | 153.34.106.214 | 1            | 2019-02-28 14:47:42 | 删除            |
+| 6199   | http://fz.bdcgw.cm/weixin/gzhfg/xld101   | 复制           | 二维码            | 117.90.103.219 | 1            | 2018-12-06 16:12:43 | 删除            |
+
+数据地址：[监测统计后台](http://zb.bdcgw.cn/monitor_report.php)
+
+数据格式：
+
+```json
+{
+    "code":20000,
+    "data":{
+        "items":[
+            {
+                "id":6200,
+                "link":"http://fz.bdcgw.cn/weixin/uc/xld18052902",
+                "type":"点击",
+                "content":"领取牛股",
+                "ip":"153.34.106.214",
+                "number":"1",
+                "time":"2019-02-28 14:47:42",
+                "operation":"删除"
+            }
+        ]
+    }
+}
+```
+
 
 
 ### svg图片处理
@@ -286,7 +315,7 @@ export default {
   </div>
 </template>
 <script>
-import IconSvg from '@/components/IconSvg.vue'
+import IconSvg from IconSVG.vue
 export default {
   components:{
     IconSvg
@@ -354,6 +383,291 @@ export default {
 ```
 
 以上代码内容放置在GithubXXXX上，你可以通过……
+
+### 侧边栏渲染
+
+根据路由渲染侧边栏，通常用于不同用户的权限划分。该方法的实现有两种，将路由表放置在后端，通过接口拿到该路由表并动态的挂载到前端路由。第二种，将路由放置在前端，通过后端对应的权限，将对应路由挂载到前端路由。
+
+**第一种方法（具体实现步骤）：**
+
+- 保存在后端服务器中的路由表是字符串，需做进一步转换，即将路由中组件对应的字符串替换成变量。
+
+```javascript
+//后端路由表
+roles: {
+          name: "admin",
+          avatar: "http://www.qiaofangzidemao.top/database/back-stage/avatar-5.png",
+          routes: [{
+              path: '/login',
+              component: '@/views/login/index',
+              hidden: true
+            },
+            {
+              path: '/404',
+              component: '@/views/404',
+              hidden: true
+            },
+
+            {
+              path: '/',
+              component: 'Layout',
+              redirect: '/home',
+              children: [{
+                path: 'home',
+                component: '@/views/home',
+                meta: {
+                  title: 'Home',
+                  icon: 'home'
+                }
+              }]
+            },
+            {
+              path: '/example',
+              component: 'Layout',
+              redirect: '/example/table',
+              meta: {
+                title: 'Example',
+                icon: 'example'
+              },
+              children: [{
+                  path: 'table',
+                  component: '@/views/table/index',
+                  meta: {
+                    title: 'Table',
+                    icon: 'table'
+                  }
+                },
+                {
+                  path: 'tree',
+                  component: '@/views/tree/index',
+                  meta: {
+                    title: 'Tree',
+                    icon: 'tree'
+                  }
+                }
+              ]
+            },
+            {
+              path: '/form',
+              component: 'Layout',
+              redirect: '/form/index',
+              children: [{
+                path: 'index',
+                component: '@/views/form',
+                meta: {
+                  title: 'Form',
+                  icon: 'form'
+                }
+              }]
+            },
+            {
+              path: 'nested',
+              component: 'Layout',
+              redirect: '/nested/munu1',
+              meta: {
+                title: 'Nested',
+                icon: 'nested'
+              },
+              children: [{
+                  path: 'menu1',
+                  component: '@/views/nested/munu1',
+                  meta: {
+                    title: 'Menu1',
+                    icon: 'nested'
+                  },
+                  children: [{
+                      path: 'menu1-1',
+                      component: '@/views/nested/menu1/menu1-1',
+                      meta: {
+                        title: 'Menu1-1',
+                        icon: 'nested'
+                      }
+                    },
+                    {
+                      path: 'menu1-2',
+                      component: '@/views/nested/menu1/menu1-2',
+                      meta: {
+                        title: 'Menu1-2',
+                        icon: 'nested'
+                      },
+                      children: [{
+                          path: 'menu1-2-1',
+                          component: '@/views/nested/munu1/menu1-2/menu1-2-1',
+                          meta: {
+                            title: 'Menu1-2-1',
+                            icon: 'nested'
+                          }
+                        },
+                        {
+                          path: 'menu1-2-2',
+                          component: '@/views/nested/menu1/menu1-2/menu1-2-2',
+                          meta: {
+                            title: 'Menu1-2-2',
+                            icon: 'nested'
+                          }
+                        },
+                      ]
+                    },
+                    {
+                      path: 'menu1-3',
+                      component: '@/views/nested/menu1-3',
+                      meta: {
+                        title: 'Menu1-3',
+                        icon: 'nested'
+                      }
+                    }
+                  ]
+                },
+                {
+                  path: 'menu2',
+                  component: '@/views/nested/menu2/index',
+                  meta: {
+                    title: 'Menu2',
+                    icon: 'menu2'
+                  }
+                }
+              ]
+            },
+            {
+              path: '*',
+              redirect: '/404',
+              hidden: true
+            }
+          ]
+        }
+```
+
+```javascript
+//替换函数
+function transformRouter (routes = []) {
+  routes.forEach(item => {
+    if (item.component == 'Layout') {
+      item.component = Layout
+    } else {
+      item.component = () => import(item.component)
+    }
+    if (item.children) {
+      transformRouter(item.children)
+    }
+  })
+}
+```
+
+- 通过router提供的API将替换好的路由表动态地挂载到router上。
+
+```javascript
+//router挂载API
+router.addRoutes(routes)
+```
+
+- 将保存在localStorage中的routes渲染成对应侧边栏(配合elementUI)，由于用到递归遍历，故将侧边栏组件进行拆分。
+
+```vue
+<!-- index.vue -->
+<template>
+  <div class="w-sidebar">
+    <el-col :span="24">
+      <el-menu
+        default-active="2"
+        class="el-menu-vertical-demo"
+        @open="handleOpen"
+        @close="handleClose"
+        background-color="#304156"
+        text-color="#fff"
+        :style="resetStyle">
+        <template v-if="routes">
+          <Item
+            v-for="route in routes"
+            v-if="!route.hidden"
+            :route="route"
+            :baseUrl="route.path" >
+          </Item>
+        </template>
+      </el-menu>
+    </el-col>
+  </div>
+</template>
+<script>
+  import Item from './item'
+  export default {
+    data () {
+      return {
+        resetStyle: {
+          'border-right' : '1px solid #304156',
+        }
+      }
+    },
+    components: {
+      Item
+    },
+    computed: {
+      routes () {
+        return this.$store.state.user.roles.routes
+      }
+    },
+    methods: {
+      handleOpen(key, keyPath) {
+        console.log(key, keyPath);
+      },
+      handleClose(key, keyPath) {
+        console.log(key, keyPath);
+      }
+    }
+  }
+</script>
+
+```
+
+```vue
+<!-- item.vue -->
+<template>
+  <div>
+    <router-link v-if="!route.meta" :to="fullUrl(route.children[0].path)">
+      <el-menu-item :index="fullUrl(route.children[0].path)">
+        <span>{{route.children[0].meta.title}}</span>
+      </el-menu-item>
+    </router-link>
+    <template v-else>
+      <router-link v-if="!route.children" :to="fullUrl(route.path)">
+        <el-menu-item :index="fullUrl(route.path)">
+          <span>{{route.meta.title}}</span>
+        </el-menu-item>
+      </router-link>
+      <el-submenu v-else :index="fullUrl()">
+        <template slot="title">
+          <span>{{route.meta.title}}</span>
+        </template>
+        <Item v-for="item in route.children" :route="item" :baseUrl="fullUrl(route.path)"></Item>
+      </el-submenu>
+    </template>
+  </div>
+</template>
+<script>
+  import path from 'path'
+  export default {
+    name: 'Item',
+    props: {
+      route: {
+        type: Object,
+        required: true
+      },
+      baseUrl: {
+        type: String,
+        required: true,
+        default:''
+      }
+    },
+    methods: {
+      fullUrl (url = '') {
+        return path.resolve(this.baseUrl, url)
+      }
+    }
+  }
+</script>
+
+```
+
+
 
 ### 项目优化
 

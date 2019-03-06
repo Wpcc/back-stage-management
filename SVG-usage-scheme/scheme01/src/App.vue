@@ -1,16 +1,19 @@
 <template>
   <div id="app">
-    <svg class="icon" aria-hidden="true">
-      <use xlink:href="#icon-me"></use>
-    </svg>
+    <IconSVG :iconClass="'me'" class="icon"></IconSVG>
   </div>
 </template>
+<script>
+  import IconSVG from '@/components/IconSVG'
+  export default {
+    components:{
+      IconSVG
+    }
+  }
+</script>
 <style media="screen">
   .icon{
-    width:1em;
-    height:1em;
-    vertical-align:-0.15em;
-    fill:currentColor;
-    overflow: hidden;
+    width:20px;
+    height: 20px;
   }
 </style>

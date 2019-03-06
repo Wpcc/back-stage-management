@@ -4,7 +4,7 @@
 
 这篇[文档](https://www.zhangxinxu.com/wordpress/2014/07/introduce-svg-sprite-technology/)详细介绍了svg图片的使用。
 
-这篇文档详细介绍svg图片中的`<g>、<defs>、<>symbol>、<use>`元素。
+这篇[文档](http://www.softwhy.com/article-122-1.html)详细介绍svg图片中的`<g>、<defs>、<symbol>、<use>`元素。
 
 ### 使用方法
 
@@ -23,7 +23,7 @@
 </head>
 <body>
 <div>
-  <svg class="icon" viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" width="200" height="200"><defs></defs><path d="M888 913.5c0 7.4-6 13.3-13.3 13.3H149.3c-7.4 0-13.3-6-13.3-13.3 0-1.1.1-2.1.4-3.1 6.8-157 109.8-289.1 251.7-338.6l116.7 116.7c4 4 10.5 4 14.5 0L636 571.8c141.8 49.5 244.9 181.6 251.7 338.6.2 1 .3 2 .3 3.1zM512 550.8c-124.5 0-225.4-100.9-225.4-225.4S387.5 100.1 512 100.1 737.4 201 737.4 325.4 636.5 550.8 512 550.8z"/></svg>
+  <svg class="icon" viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" width="200" height="200"><path d="M888 913.5c0 7.4-6 13.3-13.3 13.3H149.3c-7.4 0-13.3-6-13.3-13.3 0-1.1.1-2.1.4-3.1 6.8-157 109.8-289.1 251.7-338.6l116.7 116.7c4 4 10.5 4 14.5 0L636 571.8c141.8 49.5 244.9 181.6 251.7 338.6.2 1 .3 2 .3 3.1zM512 550.8c-124.5 0-225.4-100.9-225.4-225.4S387.5 100.1 512 100.1 737.4 201 737.4 325.4 636.5 550.8 512 550.8z"/></svg>
 </div>
 </body>
 </html>
@@ -233,7 +233,7 @@ export default {
   </div>
 </template>
 <script>
-import IconSvg from '@/components/IconSvg.vue'
+import IconSvg from IconSVG.vue
 export default {
   components:{
     IconSvg
@@ -305,3 +305,9 @@ export default {
 
 
 > 通过clone 该[项目](https://github.com/Wpcc/back-stage-management)中的SVG-usage-scheme可以查看具体代码
+>
+> scheme01使用iconfont.js方法
+>
+> scheme02使用svg-sprite-loader方法，但并没有使用require.context API加载svg图片
+>
+> scheme03使用svg-sprite-loader方法，并使用require.context API加载svg图片
