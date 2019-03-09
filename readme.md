@@ -247,7 +247,7 @@ module.exports = {
         //更改原来svg配置处理loader
         const svgRule = config.module.rule('svg)
         
-        svg.Rule
+        svgRule
         .exclude
         	.add(resolve('src/icons))
         	.end()
